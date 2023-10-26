@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import IconButton from '../../components/IconButton';
 import IconInfoCircle from '../../icons/IconInfoCircle';
 import Tooltip, { TooltipContainer } from '../../components/Tooltip';
@@ -24,6 +24,11 @@ const PriceInfo = ({ summary, totalPrice }) => {
       ) : null}
     </TooltipContainer>
   );
+};
+
+PriceInfo.propTypes = {
+  summary: PropTypes.array.isRequired,
+  totalPrice: PropTypes.string.isRequired,
 };
 
 export default PriceInfo;

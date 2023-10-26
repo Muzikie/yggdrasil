@@ -3,7 +3,7 @@
  * of Tooltip is simplified to only work for a bottom-right alignment.
  */
 import PropTypes from 'prop-types';
-import Box from '../components/Box';
+import Box from './Box';
 import styled from 'styled-components';
 import css from '@styled-system/css';
 

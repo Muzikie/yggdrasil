@@ -84,7 +84,6 @@ RecipeCard.propTypes = {
 };
 
 const UnselectedRecipeFooter = ({
-  isExtra,
   price,
   recipeId,
   minRecipesSelected,
@@ -97,12 +96,12 @@ const UnselectedRecipeFooter = ({
     </Box>
     <Box flex="50%">
       <Button
-        onClick={() => handleAddRecipe()}
+        onClick={() => handleAddRecipe(recipeId)}
         variant="secondary"
         width="100%"
         p="0"
-        disabled={false}>
-        {false ? 'Add extra meal' : 'Add'}
+        disabled={maxRecipesSelected}>
+        {minRecipesSelected ? 'Add extra meal' : 'Add'}
       </Button>
     </Box>
   </Flex>
@@ -120,14 +119,17 @@ UnselectedRecipeFooter.propTypes = {
 const SelectedRecipeFooter = ({
   recipeId,
   selected,
-  selectionLimit,
   yields,
   maxRecipesSelected,
   handleAddRecipe,
   handleRemoveRecipe,
 }) => (
   <Flex backgroundColor="primary_600" justifyContent="space-between" alignItems="center">
-    <SelectionButton onClick={() => handleRemoveRecipe()} title="Decrease quantity">
+    <SelectionButton
+      onClick={() => handleRemoveRecipe(recipeId)}
+      title="Decrease quantity"
+      disabled={selected === 0}
+    >
       <IconMinusCircle />
     </SelectionButton>
     <Box color="white">
@@ -138,7 +140,11 @@ const SelectedRecipeFooter = ({
         ({selected * yields} servings)
       </Text>
     </Box>
-    <SelectionButton onClick={() => handleAddRecipe()} title="Increase quantity" disabled={false}>
+    <SelectionButton
+      onClick={() => handleAddRecipe(recipeId)}
+      title="Increase quantity"
+      disabled={maxRecipesSelected}
+    >
       <IconPlusCircle />
     </SelectionButton>
   </Flex>

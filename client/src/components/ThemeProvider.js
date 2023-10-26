@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { ThemeProvider as StyledComponentsProvider } from 'styled-components';
 import { GridThemeProvider, BaseCSS } from 'styled-bootstrap-grid';
 
@@ -182,5 +183,9 @@ const ThemeProvider = ({ children }) => (
     </GridThemeProvider>
   </StyledComponentsProvider>
 );
+
+ThemeProvider.propTypes = {
+  children: PropTypes.any.isRequired,
+};
 
 export default ThemeProvider;

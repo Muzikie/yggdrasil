@@ -1,5 +1,5 @@
 #!/bin/sh -x
 
-node /server/build/server.js
+node /build/server.js
 
 exec "$@"

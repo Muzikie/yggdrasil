@@ -5,19 +5,19 @@ services:
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: password
-      MYSQL_USER: recipe_db_user
-      MYSQL_PASSWORD: hellofresh
-      MYSQL_DATABASE: recipes_service
+      MYSQL_USER: yggdrasil
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: yggdrasil
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./server/docker/mysql-healthcheck.sh:/healthcheck.sh
+      - ./docker/mysql-healthcheck.sh:/healthcheck.sh
     healthcheck:
       test: [ 'CMD', 'bash', '/healthcheck.sh' ]
 
   # Node.js application service
   api:
     build:
-      context: ./server
+      context: ./
       dockerfile: Dockerfile
     depends_on:
       projectdb:
@@ -25,14 +25,14 @@ services:
     environment:
       MYSQL_HOST: projectdb
       MYSQL_PORT: 3306
-      MYSQL_USER: recipe_db_user
-      MYSQL_PASSWORD: hellofresh
-      MYSQL_DATABASE: recipes_service
+      MYSQL_USER: yggdrasil
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: yggdrasil
     ports:
       - "4000:4000"
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./server/docker/api-healthcheck.sh:/healthcheck.sh
+      - ./docker/api-healthcheck.sh:/healthcheck.sh
     entrypoint: ['/entrypoint.sh']
     healthcheck:
       test: [ 'CMD', 'bash', '/healthcheck.sh' ]
@@ -40,23 +40,10 @@ services:
   # Initiate DB with the given data
   initdb:
     image: mysql:8.0
-    command: ["bash", "-c", "sleep 10 && mysql -hprojectdb -urecipe_db_user -phellofresh recipes_service < /docker-entrypoint-initdb.d/init.sql"]
+    command: ["bash", "-c", "sleep 10 && mysql -hprojectdb -uyggdrasil -phellofresh recipes_service < /docker-entrypoint-initdb.d/init.sql"]
 
     volumes:
-      - ./server/docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
     depends_on:
       api:
         condition: service_healthy
-
-  # React client application
-  client:
-    build:
-      context: ./client
-      dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
-    depends_on:
-      - initdb
-    command: ["serve", "-s", "build", "-l", "3000"]
-volumes:
-  mysql_data:

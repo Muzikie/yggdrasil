@@ -1,6 +1,6 @@
 FROM node:16
 
-WORKDIR /src
+WORKDIR /app
 COPY package*.json ./
 COPY entrypoint.sh /
 COPY docker/mysql-healthcheck.sh /

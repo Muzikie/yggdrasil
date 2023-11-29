@@ -8,9 +8,13 @@ services:
       MYSQL_USER: yggdrasil
       MYSQL_PASSWORD: password
       MYSQL_DATABASE: yggdrasil
+      DB_DRIVER: mysql
+    ports:
+      - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
       - ./docker/mysql-healthcheck.sh:/healthcheck.sh
+      - ./docker/my.cnf:/etc/mysql/my.cnf
     healthcheck:
       test: [ 'CMD', 'bash', '/healthcheck.sh' ]
 
@@ -28,6 +32,7 @@ services:
       MYSQL_USER: yggdrasil
       MYSQL_PASSWORD: password
       MYSQL_DATABASE: yggdrasil
+      DB_DRIVER: mysql
     ports:
       - "4000:4000"
     volumes:
@@ -40,10 +45,13 @@ services:
   # Initiate DB with the given data
   initdb:
     image: mysql:8.0
-    command: ["bash", "-c", "sleep 10 && mysql -hprojectdb -uyggdrasil -phellofresh recipes_service < /docker-entrypoint-initdb.d/init.sql"]
+    command: ["bash", "-c", "sleep 10 && mysql -hprojectdb -uyggdrasil -ppassword yggdrasil < /docker-entrypoint-initdb.d/init.sql"]
 
     volumes:
       - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
     depends_on:
       api:
         condition: service_healthy
+
+volumes:
+  mysql_data:

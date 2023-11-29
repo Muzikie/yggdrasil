@@ -1,9 +1,9 @@
-export interface GetAllProductsFilters {
+export interface GetAllGendersFilters {
   isDeleted?: boolean
   includeDeleted?: boolean
 }
 
-export interface GetAllRecipesFilters {
+export interface GetAllEmotionsFilters {
   isDeleted?: boolean
   includeDeleted?: boolean
 }

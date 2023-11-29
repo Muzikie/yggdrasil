@@ -1,9 +1,9 @@
-import { Product, Recipe } from './models';
+import { Gender, Emotion } from './models';
 const isDev = process.env.NODE_ENV === 'development';
 
 const dbInit = () => {
-  Product.sync({ alter: isDev });
-  Recipe.sync({ alter: isDev });
+  Gender.sync({ alter: isDev });
+  Emotion.sync({ alter: isDev });
 };
 
 export default dbInit;

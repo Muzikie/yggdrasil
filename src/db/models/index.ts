@@ -1,2 +1,2 @@
-export * from './Recipe';
-export * from './Product';
+export * from './Emotion';
+export * from './Gender';

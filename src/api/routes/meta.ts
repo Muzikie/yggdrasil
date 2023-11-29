@@ -12,4 +12,7 @@ metaRouter.get('/status', async (req: Request, res: Response) => {
   });
 });
 
-export default metaRouter;
+export default {
+  path: '/meta',
+  router: metaRouter,
+};
